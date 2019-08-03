@@ -1,6 +1,12 @@
 <template>
-  <div>
-
+  <div id="add-blog">
+    <h2>Add a New Blog Post</h2>
+    <form>
+      <label>Blog Title:</label>
+      <input type="text" required>
+      <label>Blog Content:</label>
+      <textarea></textarea>
+    </form>
   </div>
 </template>
 
@@ -20,5 +26,4 @@ export default {
 </script>
 
 <style>
-
 </style>
