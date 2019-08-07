@@ -3,8 +3,8 @@
     <h1>All Blog Articles</h1>
     <input type="text" v-model="search" placeholder="search blogs">
     <div v-for="blog in filteredBlogs" class="single-blog">
-      <h2 v-rainbow> {{ blog.title | toUppercase }}</h2>
-      <article>{{ blog.body | snippet }}</article>
+      <router-link v-bind:to="'/blog/' + blog.id"><h2 v-rainbow> {{ blog.title | toUppercase }}</h2></router-link>
+      <article>{{ blog.content | snippet }}</article>
     </div>
   </div>
 </template>
@@ -24,10 +24,18 @@ export default {
 
   },
   created() {
-    this.$http.get('https://jsonplaceholder.typicode.com/posts').then(function(data){
-      console.log(data);
-      this.blogs = data.body.slice(0,10);
-    })
+    this.$http.get('https://vue-blog-project-d84dd.firebaseio.com/posts.json').then(function(data){
+      return data.json();
+    }).then((data) => {
+      var blogsArray = [];
+      for (let key in data){
+        console.log(data[key]);
+        data[key].id = key;
+        blogsArray.push(data[key]);
+      }
+      console.log(blogsArray);
+      this.blogs = blogsArray;
+    });
   },
   computed: {
 
@@ -69,7 +77,12 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap');
-
+a{
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 8px;
+    border-radius: 10px;
+}
 #show-blogs{
   max-width: 800px;
   margin: 0 auto;
